@@ -4,6 +4,7 @@ import { Course } from '../model/course';
 import { CourseService } from '../services/course.service';
 import { Observable, catchError, of } from 'rxjs';
 import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
@@ -16,7 +17,12 @@ export class CoursesComponent implements OnInit {
 
   displayedColumns = ['name', 'category', 'actions'];
 
-  constructor(private courseService: CourseService, private dialog: MatDialog) {
+  constructor(
+    private courseService: CourseService,
+    private dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
+    ) {
     this.courses$ = this.courseService.list()
     .pipe(
       catchError(error => {
@@ -34,6 +40,10 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  onAdd(){
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
 }
